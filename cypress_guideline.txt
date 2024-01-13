@@ -1,0 +1,36 @@
+npm init -y
+npm install cypress --save-dev
+npm install typescript --save-dev
+
+npx cypress open
+
+//Write test in typescript
+https://docs.cypress.io/guides/tooling/typescript-support
+
+/* this tutorial does no work
+//create tsconfig.json file
+npx tsc --init
+//replace new tsconfig.json file content with below:
+//original file: https://gist.github.com/hanuteam00/0306d94f6d0eebcbfc8ac737da334db6
+{
+"compilerOptions": {
+"target": "es2016",
+"module": "commonjs",
+"lib": ["dom", "es6", "es7"],
+"types": ["node","cypress"],
+"strict": true,
+"skipLibCheck": true
+},
+"exclude": ["node_modules"],
+"include": ["**/*.ts"]
+}
+*/
+
+//Install package in package.json
+npm install @badeball/cypress-cucumber-preprocessor --save-dev
+npm install @bahmutov/cypress-esbuild-preprocessor --save-dev
+npm install @faker-js/faker --save-dev
+npm install cypress-plugin-tab --save-dev
+npm install cypress-xpath --save-dev
+npm install esbuild --save-dev
+

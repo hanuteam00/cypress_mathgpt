@@ -1,0 +1,14 @@
+[
+  {
+    "email": "manhtt@edu.vn",
+    "code": "123456",
+    "errorMessage1": "MathGPT service is not yet available for your account. Please ask your professor/instructor to get access!",
+    "errorMessage2": "Invalid or expired login code. Please try again!"
+  },
+  {
+    "email": "manhtt@gmail.com",
+    "code": "   ",
+    "errorMessage1": "MathGPT service is not yet available for your account. Please ask your professor/instructor to get access!",
+    "errorMessage2": "Please enter a valid login code."
+  }
+]
