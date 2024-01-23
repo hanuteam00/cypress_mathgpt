@@ -36,5 +36,4 @@ export default class SignupPageUI {
         messageContent: () => cy.get(MESSAGE_CONTENT),
        
     }
-
 }
