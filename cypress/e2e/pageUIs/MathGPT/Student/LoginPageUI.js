@@ -37,6 +37,5 @@ export default class SignupPageUI {
         emailError: () => cy.get(EMAIL_ERROR),
         passwordError: () => cy.get(PASSWORD_ERROR),
         messageContent: () => cy.get(MESSAGE_CONTENT),
-
     }
 }
