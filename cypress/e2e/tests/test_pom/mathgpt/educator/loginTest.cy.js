@@ -43,7 +43,7 @@ describe('Test Suite 1', function () {
         //Let blank email and password and click on "Log in" button
         loginPage.emailInput.focus().blur();
         loginPage.passwordInput.focus().blur();
-        loginPage.loginButton.click();
+        loginPage.loginButton.click({force: true});
         //verify error message
         loginPage.emailError.should('contain.text', 'Please enter your email address.');
         loginPage.passwordError.should('contain.text', 'Please enter your password.');
@@ -106,6 +106,5 @@ describe('Test Suite 1', function () {
         //Verify Educator login successfully and is redirected to Home Page
         homePageEdu.greatingMessage.should('contain.text', 'Welcome, ' + this.realEduAccount[0].firstName);
         homePageEdu.instructorSummary.should('contain.text', 'Manage your courses and students, all in one place!');
-
     })
 })
