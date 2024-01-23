@@ -105,6 +105,5 @@ describe('Test Suite 1', function () {
 
         //Verify Educator login successfully and is redirected to Home Page
         homePageEdu.greatingMessage.should('contain.text', 'Welcome, ' + this.realStuAccount[0].firstName);
-
     })
 })
