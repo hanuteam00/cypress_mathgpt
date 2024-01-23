@@ -101,5 +101,4 @@ describe('Test Suite 1', function () {
         homePageEdu.greatingMessage.should('contain.text', 'Welcome, ' + this.dataFake.randTime + '!');
 
     })
-
 })
