@@ -3,6 +3,8 @@ const GREATING_MESSAGE = `.GreetingHeading > div`;
 const INSTRUCTOR_BADGE = `div[class^='InstructorBadge']`;
 const INSTRUCTOR_SUMMARY = `div[class='u-marginTopExtraSmall']`;
 const CREATE_COURSE_SUMMARY = `div[class^='u-marginTopExtraSmall u-paddingTopTiny']`;
+const COURSE_LIST = `div[class^='CoursesContainerWrapper']>div`;
+
 
 //Step 2: Create a class to store all elements on each page, and export it to use in test cases level
 export default class HomePageUI {
@@ -13,6 +15,7 @@ export default class HomePageUI {
     get instructorBadge() { return cy.get(INSTRUCTOR_BADGE); }
     get instructorSummary() { return cy.get(INSTRUCTOR_SUMMARY); }
     get createCourseSummary() { return cy.get(CREATE_COURSE_SUMMARY); }
+    get courseList() { return cy.get(COURSE_LIST); }
 
     //way2: store elements as properties of class
     elements = {
@@ -20,5 +23,8 @@ export default class HomePageUI {
         greatingMessage: () => cy.get(GREATING_MESSAGE),
         instructorBadge: () => cy.get(INSTRUCTOR_BADGE),
         instructorSummary: () => cy.get(INSTRUCTOR_SUMMARY),
+        createCourseSummary: () => cy.get(CREATE_COURSE_SUMMARY),
+        courseList: () => cy.get(COURSE_LIST),
+
     }
 }
