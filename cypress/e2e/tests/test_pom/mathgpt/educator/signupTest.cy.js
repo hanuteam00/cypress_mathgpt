@@ -1,5 +1,5 @@
-import SignupPageUI from '../../../pageUIs/MathGPT/Educator/SignupPageUI'
-import HomePageUI from '../../../pageUIs/MathGPT/Educator/HomePageUI'
+import SignupPageUI from '../../../../pageUIs/MathGPT/Educator/SignupPageUI'
+import HomePageUI from '../../../../pageUIs/MathGPT/Educator/HomePageUI'
 
 const signupPage = new SignupPageUI();
 const homePageEdu = new HomePageUI();
@@ -102,5 +102,4 @@ describe('Test Suite 1', function () {
         homePageEdu.instructorSummary.should('contain.text', 'Manage your courses and students, all in one place!');
         // homePageEdu.createCourseSummary.should('contain.text', 'Begin your teaching journey with MathGPT by creating your first course today!');
     })
-
 })
