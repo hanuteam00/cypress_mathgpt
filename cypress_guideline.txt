@@ -34,3 +34,6 @@ npm install cypress-plugin-tab --save-dev
 npm install cypress-xpath --save-dev
 npm install esbuild --save-dev
 
+https://mathgpt-api-dev.tutoruniverse.net/_api_#/auth/get_refresh_token_token_refreshes_post => 405 Method Not Allowed
+=> fixed by replace URL: https://mathgpt-api-dev.tutoruniverse.net/token-refreshes
+
