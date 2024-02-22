@@ -437,3 +437,34 @@ Cypress.Commands.add('elementExists', (selector,textToVerify) => {
 //   const matchCase = options?.matchCase || false;
 //   return originalFn(subject, value, { ...options, matchCase });
 // });
+
+Cypress.Commands.add('loginByAPIgetRefreshToken', (token_refreshes_api_url, original_refresh_token) => {
+  // cy.session([email, password], () => {
+    //step 1: send request to get token
+    cy.request({
+      url: token_refreshes_api_url,
+      method: 'POST',
+      headers: {
+        contentType: "application/json",
+        // accept: "application/json",
+      },
+      body: { "refresh_token": original_refresh_token}
+      //step 2: then save token to local storage
+    }).then(res => {
+      const responseBody = res.body;
+      const access_token = responseBody.access_token
+      const refresh_token = responseBody.refresh_token
+      
+      // window.localStorage.setItem('questionable-portal.demo.demo-auth', `${tokenByAPI}`) //not work
+      window.localStorage.setItem('gotit.mathgpt.authenticated_access_token', access_token);
+      window.localStorage.setItem('gotit.mathgpt.authenticated_refresh_token', refresh_token);
+
+      //step 4 (optional): create a new file to store data
+      const filename1 = 'cypress/fixtures/token.json'
+      cy.writeFile(filename1, {
+        'access_token': access_token,
+        'refresh_token': refresh_token
+      })
+    })
+  // })
+})

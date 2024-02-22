@@ -34,3 +34,23 @@ npm install cypress-plugin-tab --save-dev
 npm install cypress-xpath --save-dev
 npm install esbuild --save-dev
 
+https://mathgpt-api-dev.tutoruniverse.net/_api_#/auth/get_refresh_token_token_refreshes_post => 405 Method Not Allowed
+=> fixed by replace URL: https://mathgpt-api-dev.tutoruniverse.net/token-refreshes
+
+//arguments
+https://docs.cypress.io/api/commands/type#Arguments
+cy.visit('https://example.cypress.io/todo')
+cy.get('[data-test=new-todo]').type(`${newItem}{enter}`)
+
+//find parent
+cy.visit('https://example.cypress.io/todo')
+cy.contains('Pay electric bill')
+      .parent()
+      .find('input[type=checkbox]')
+      .check()
+
+// to traverse multiple levels up the dom until we find the corresponding <li> element.
+// Once we get that element, we can assert that it has the completed class.
+cy.contains('Pay electric bill')
+      .parents('li')
+      .should('have.class', 'completed')

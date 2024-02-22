@@ -11,7 +11,7 @@ const PASSWORD_ERROR = `form[class='u-widthFull'] > div:last-of-type > div > div
 const MESSAGE_CONTENT = `.Message-content`;
 
 //Step 2: Create a class to store all elements on each page, and export it to use in test cases level
-export default class SignupPageUI {
+export default class LoginPageUI {
     //Step 3: Create methods to interact with elements on each page in test case level
 
     //way1: store elements as getter methods of class

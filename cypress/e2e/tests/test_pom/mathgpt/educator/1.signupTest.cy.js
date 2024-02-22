@@ -1,5 +1,5 @@
-import SignupPageUI from '../../../pageUIs/MathGPT/Educator/SignupPageUI'
-import HomePageUI from '../../../pageUIs/MathGPT/Educator/HomePageUI'
+import SignupPageUI from '../../../../pageUIs/MathGPT/Educator/SignupPageUI'
+import HomePageUI from '../../../../pageUIs/MathGPT/Educator/HomePageUI'
 
 const signupPage = new SignupPageUI();
 const homePageEdu = new HomePageUI();
@@ -9,13 +9,6 @@ describe('Test Suite 1', function () {
     beforeEach(function () {
         cy.fixture('data').then(function (data) {
             this.data = data;
-        })
-        //generate fake data and write to dataFake.json
-        cy.generateFakeData()
-        //get data from dataFake.json
-        cy.fixture('dataFake').then(function (dataFake) {
-            //get data from dataFake.json
-            this.dataFake = dataFake;
         })
 
         cy.fixture('invalidCredentials_Signup').then(function (invalidCredentials_Signup) {
@@ -82,25 +75,35 @@ describe('Test Suite 1', function () {
         cy.textVisible('Already have an account?');
         signupPage.signupButton.should('be.visible')
 
-        //sign up with valid email
-        const email = 'edu+' + this.dataFake.randTime + '@gotitapp.co';
-        const password = `Aa123456@`;
-        const firstName = this.dataFake.randTime
+        //generate fake data and write to dataFake.json
+        cy.generateFakeData()
 
-        signupPage.firstNameInput.clear().type(firstName)
-        signupPage.lastNameInput.clear().type('edu')
-        signupPage.passwordInput.clear().type(password)
-        signupPage.emailInput.clear().type(email)
-        signupPage.signupButton.should('be.enabled')
-        signupPage.signupButton.click()
+        //get data from dataFake.json
+        cy.fixture('dataFake').then(function (dataFake) {
+            //get data from dataFake.json
+            //sign up with valid email
+            const email = 'edu+' + dataFake.randTime + '@gotitapp.co';
+            const password = `Aa123456@`;
+            const firstName = dataFake.randTime
 
-        //save account after successful registration in realEduAccount.json
-        cy.writeDataToFile('cypress/fixtures/realEduAccount.json', email, password, firstName)
+            signupPage.firstNameInput.clear().type(firstName)
+            signupPage.lastNameInput.clear().type('edu')
+            signupPage.passwordInput.clear().type(password)
+            signupPage.emailInput.clear().type(email)
+            signupPage.signupButton.should('be.enabled')
+            signupPage.signupButton.click()
 
-        //Verify Educator register successfully and is redirected to Home Page
-        homePageEdu.greatingMessage.should('contain.text', 'Welcome, ' + this.dataFake.randTime + '!');
-        homePageEdu.instructorSummary.should('contain.text', 'Manage your courses and students, all in one place!');
-        // homePageEdu.createCourseSummary.should('contain.text', 'Begin your teaching journey with MathGPT by creating your first course today!');
+            //save account after successful registration in realEduAccount.json
+            cy.writeDataToFile('cypress/fixtures/realEduAccount.json', email, password, firstName)
+
+            //Verify Educator register successfully and is redirected to Home Page
+            homePageEdu.greatingMessage.should('contain.text', 'Welcome, ' + dataFake.randTime + '!');
+            homePageEdu.instructorSummary.should('contain.text', 'Manage your courses and students, all in one place!');
+            // homePageEdu.createCourseSummary.should('contain.text', 'Begin your teaching journey with MathGPT by creating your first course today!');
+
+        })
+
+
     })
 
 })
