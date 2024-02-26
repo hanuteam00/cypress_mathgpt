@@ -60,6 +60,8 @@ context('Cypress APIs', () => {
 
     it('Get CPU architecture name of underlying OS', () => {
     // https://on.cypress.io/arch
+    cy.log('Cypress.arch: ' + Cypress.arch);
+    cy.log(`Cypress.arch: ${Cypress.arch}`);
       expect(Cypress.arch).to.exist
     })
   })
@@ -74,23 +76,24 @@ context('Cypress APIs', () => {
       let myConfig = Cypress.config()
 
       expect(myConfig).to.have.property('animationDistanceThreshold', 5)
-      expect(myConfig).to.have.property('baseUrl', null)
-      expect(myConfig).to.have.property('defaultCommandTimeout', 4000)
-      expect(myConfig).to.have.property('requestTimeout', 5000)
-      expect(myConfig).to.have.property('responseTimeout', 30000)
-      expect(myConfig).to.have.property('viewportHeight', 660)
-      expect(myConfig).to.have.property('viewportWidth', 1000)
-      expect(myConfig).to.have.property('pageLoadTimeout', 60000)
+      // expect(myConfig).to.have.property('baseUrl', null)
+      expect(myConfig).to.have.property('baseUrl', 'https://www.mathgpt.ai')  //null by default
+      expect(myConfig).to.have.property('defaultCommandTimeout', 15000)       //4000 default
+      expect(myConfig).to.have.property('requestTimeout', 5000)               //5000
+      expect(myConfig).to.have.property('responseTimeout', 30000)             //30000
+      expect(myConfig).to.have.property('viewportHeight', 900)                //660
+      expect(myConfig).to.have.property('viewportWidth', 1440)                //1000
+      expect(myConfig).to.have.property('pageLoadTimeout', 30000)             //60000
       expect(myConfig).to.have.property('waitForAnimations', true)
 
-      expect(Cypress.config('pageLoadTimeout')).to.eq(60000)
+      expect(Cypress.config('pageLoadTimeout')).to.eq(30000)
 
       // this will change the config for the rest of your tests!
       Cypress.config('pageLoadTimeout', 20000)
 
       expect(Cypress.config('pageLoadTimeout')).to.eq(20000)
 
-      Cypress.config('pageLoadTimeout', 60000)
+      Cypress.config('pageLoadTimeout', 30000)  //return to default
     })
   })
 
@@ -101,6 +104,7 @@ context('Cypress APIs', () => {
 
     // https://on.cypress.io/dom
     it('.isHidden() - determine if a DOM element is hidden', () => {
+      //Cypress.$() là một hàm của Cypress giúp thực hiện các truy vấn jQuery trong môi trường Cypress
       let hiddenP = Cypress.$('.dom-p p.hidden').get(0)
       let visibleP = Cypress.$('.dom-p p.visible').get(0)
 
@@ -179,7 +183,15 @@ context('Cypress APIs', () => {
     it('Get current spec information', () => {
     // https://on.cypress.io/spec
     // wrap the object so we can inspect it easily by clicking in the command log
+      //Cypress.spec là một đối tượng cung cấp thông tin về tệp (spec file) hiện tại đang chạy.
+      //cy.wrap(Cypress.spec) đang sử dụng lệnh wrap để đặt Cypress.spec vào một đối tượng Cypress để thuận tiện trong việc xem nó trong console
       cy.wrap(Cypress.spec).should('include.keys', ['name', 'relative', 'absolute'])
+      /*
+      {id: 'U3BlYzovVXNlcnMvbWFuaGtha2EvRG93bmxvYWRzL2F1dG9tYX…tYWR2YW5jZWQtZXhhbXBsZXMvY3lwcmVzc19hcGkuY3kuanM=', 
+      name: 'cypress_api.cy.js', specType: 'integration', 
+      absolute: '/Users/manhkaka/Downloads/automation-tut/cypress_m…e2e/tests/z_2-advanced-examples/cypress_api.cy.js', 
+      baseName: 'cypress_api.cy.js', …}
+      */
     })
   })
 })

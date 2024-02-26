@@ -27,6 +27,7 @@ context('Aliasing', () => {
 
   it('.as() - alias a route for later use', () => {
     // Alias the route to wait for its response
+    //https://jsonplaceholder.cypress.io/comments/1
     cy.intercept('GET', '**/comments/*').as('getComment')
 
     // we have code that gets a comment when

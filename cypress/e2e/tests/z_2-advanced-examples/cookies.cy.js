@@ -37,7 +37,7 @@ context('Cookies', () => {
     })
   })
 
-  it('cy.getAllCookies() - get all browser cookies', () => {
+  it.only('cy.getAllCookies() - get all browser cookies', () => {
     // https://on.cypress.io/getallcookies
     cy.getAllCookies().should('be.empty')
 

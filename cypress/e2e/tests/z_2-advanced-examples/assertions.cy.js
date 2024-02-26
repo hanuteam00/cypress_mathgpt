@@ -23,7 +23,13 @@ context('Assertions', () => {
         // first need to invoke jQuery method text()
         // and then match using regular expression
         .invoke('text')
-        .should('match', /column content/i)
+        //way1
+        .should('have.text', 'column content'.toLowerCase())
+        /*way2
+        .then((text) => {
+          expect(text.trim().toLowerCase()).to.equal('column content');
+        })
+      */
 
       // a better way to check element's text content against a regular expression
       // is to use "cy.contains"

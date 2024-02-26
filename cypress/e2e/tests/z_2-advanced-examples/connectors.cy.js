@@ -31,6 +31,7 @@ context('Connectors', () => {
     cy.get('.connectors-div').invoke('show')
 
     cy.get('.connectors-div').should('be.visible')
+    cy.get('.connectors-div').click()
   })
 
   it('.spread() - spread an array as individual args to callback function', () => {
@@ -87,11 +88,11 @@ context('Connectors', () => {
           // note how we run a Cypress command
           // the result yielded by this Cypress command
           // will be passed to the second ".then"
-          cy.wrap(2)
+          cy.wrap(3)
         })
         .then((num) => {
-          // this callback receives the value yielded by "cy.wrap(2)"
-          expect(num).to.equal(2)
+          // this callback receives the value yielded by "cy.wrap(3)"
+          expect(num).to.equal(3)
         })
     })
   })
