@@ -10,16 +10,27 @@ context('Misc', () => {
 
     // cy.end is useful when you want to end a chain of commands
     // and force Cypress to re-query from the root element
+    //Việc sử dụng .within() giúp giữ cho các tìm kiếm phần tử chỉ xảy ra bên trong phạm vi của bảng
     cy.get('.misc-table').within(() => {
       // ends the current chain and yields null
-      cy.contains('Cheryl').click().end()
+      //.end(): Kết thúc phạm vi của .within(), quay trở lại phần tử gốc ('.misc-table')
+      //Có thể thấy, .end() được sử dụng để đóng lại phạm vi within() và trở về phần tử gốc
 
+      //code 1: Thực hiện click lần lượt trên các phần tử có chứa văn bản 'Cheryl' và 'Charles' bên trong phạm vi của .within().
+      //Thực hiện liên tiếp các thao tác trực tiếp trong .within() mà không cần quay lại phạm vi gốc
+      // cy.contains('Cheryl').click()
       // queries the entire table again
+      //Tìm phần tử chứa văn bản 'Charles' bên trong phần tử có class là 'misc-table'.
+      // cy.contains('Charles').click() -> failed bởi vì 'system' không nằm trong within nữa
+
+      //code 2: Thực hiện click trên phần tử có chứa văn bản 'Cheryl' và sau đó kết thúc phạm vi .within().
+      //Sau khi kết thúc .within(), thực hiện click lên phần tử có chứa văn bản 'Charles'.
+      cy.contains('Cheryl').click().end()
       cy.contains('Charles').click()
     })
   })
 
-  it('cy.exec() - execute a system command', () => {
+  it.only('cy.exec() - execute a system command', () => {
     // execute a system command.
     // so you can take actions necessary for
     // your test outside the scope of Cypress.
@@ -89,8 +100,8 @@ context('Misc', () => {
         scale: false,
         disableTimersAndAnimations: true,
         screenshotOnRunFailure: true,
-        onBeforeScreenshot () { },
-        onAfterScreenshot () { },
+        onBeforeScreenshot() { },
+        onAfterScreenshot() { },
       })
     })
   })

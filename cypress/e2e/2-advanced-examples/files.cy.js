@@ -2,6 +2,7 @@
 
 /// JSON fixture file can be loaded directly using
 // the built-in JavaScript bundler
+//Trong trường hợp sử dụng require, nó có thể trông giống như sau
 const requiredExample = require('../../fixtures/example')
 
 context('Files', () => {
