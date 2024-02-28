@@ -27,7 +27,7 @@ module.exports = defineConfig({
     viewportWidth: 1440,
     viewportHeight: 900,
 
-    baseUrl: 'https://www.mathgpt.ai'
+    // baseUrl: 'https://www.mathgpt.ai'
 
   },
 });
