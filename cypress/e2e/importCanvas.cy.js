@@ -45,7 +45,7 @@ describe('template spec', () => {
 
   })
 
-  it.skip('create a Canvas account', function(){
+  it.skip('create a Canvas account', function () {
     cy.visit('https://canvas.tutoruniverse.net/enroll/XW974W');
     cy.get('#student_email').clear().type('manh+demo3@gotitapp.co');
     cy.wait(1000)
@@ -56,15 +56,15 @@ describe('template spec', () => {
     cy.get('img')
     cy.contains('Logout')
   })
-  
-  it('create 60 Canvas accounts', function () {
+
+  it.skip('create 60 Canvas accounts - not really well structured', function () {
     const accountsToCreate = 30;
     const emailPrefix = 'manh+demo';
     const baseEmail = '@gotitapp.co';
-  
+
     for (let i = 45; i <= accountsToCreate + 44; i++) {
       const email = emailPrefix + i + baseEmail;
-  
+
       cy.visit('https://canvas.tutoruniverse.net/enroll/XW974W');
       cy.wait(2000);
       cy.get('#student_email').clear().type(email);
@@ -76,9 +76,10 @@ describe('template spec', () => {
       cy.wait(2000)
       cy.visit('https://canvas.tutoruniverse.net/')
       cy.wait(5000);
+
       //sign out
       cy.get('#global_nav_profile_link').click()
-      cy.log('email: '+email)
+      cy.log('email: ' + email)
       cy.wait(2000);
       cy.contains('Logout').click()
       cy.wait(2000);
@@ -88,7 +89,7 @@ describe('template spec', () => {
     }
   });
 
-  it.skip('use Canvas admin to add user/pass, remove old user, update new user email', function(){
+  it.skip('use Canvas admin to add user/pass, remove old user, update new user email', function () {
     /* ==== Generated with Cypress Studio ==== */
     cy.visit('https://canvas.tutoruniverse.net/login/canvas');
     cy.get('#pseudonym_session_unique_id').type('jon@gotitapp.co');
@@ -118,4 +119,39 @@ describe('template spec', () => {
     //Update Log in
     cy.get('#edit_pseudonym_form > .form-controls > .btn-primary').click();
   })
+
+  it('use Canvas admin to add user/pass, remove old user, update new user email', function () {
+    cy.visit('https://canvas.tutoruniverse.net/login/canvas');
+    cy.get('#pseudonym_session_unique_id').type('jon@gotitapp.co');
+    cy.get('#pseudonym_session_password').type('b1CtUXftRhF2');
+    cy.get(`input[value='Log In']`).click();
+
+
+
+    for (let i = 61; i <= 65; i++) {
+
+      cy.visit('https://canvas.tutoruniverse.net/accounts/2/users');
+      cy.wait(1000);
+
+      const baseEmail = `manh+demo${i}`;
+      const email = `${baseEmail}@gotitapp.co`;
+      const emailWithA = `${baseEmail}a@gotitapp.co`;
+
+      cy.get('#TextInput_1').type(email);
+      cy.wait(2000);
+      cy.get(`a[data-cid='Link']`).click();
+      cy.wait(10000);
+      cy.get('.add_pseudonym_link').click();
+      cy.wait(2000);
+      cy.get('#pseudonym_unique_id').type(emailWithA);
+      cy.get('#pseudonym_password').type('Aa123456@');
+      cy.get('#pseudonym_password_confirmation').type('Aa123456@');
+      cy.get('#edit_pseudonym_form > .form-controls > .btn-primary').click();
+      cy.get(':nth-child(1) > .links > .delete_pseudonym_link > .icon-end').click();
+      cy.get('[style=""] > .links > .edit_pseudonym_link > .icon-edit').click();
+      cy.get('#pseudonym_unique_id').clear().type(email);
+      cy.get('#edit_pseudonym_form > .form-controls > .btn-primary').click();
+
+    }
+  });
 })
