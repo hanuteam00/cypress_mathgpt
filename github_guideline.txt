@@ -1,5 +1,7 @@
 https://blog.devgenius.io/how-to-add-your-project-to-github-with-visual-studio-code-b311b57ad9d0
 
+Initialize a Git repository with the following command: git init
+
 specify a repository to clone
 git clone https://github.com/hanuteam00/javascript.git
 cd javascript
