@@ -1,0 +1,339 @@
+//Part 1: General configuration
+npm init -y
+npm install cypress --save-dev
+npm install typescript --save-dev
+
+npx cypress open
+
+//Write test in typescript
+https://docs.cypress.io/guides/tooling/typescript-support
+
+/* this tutorial does no work
+//create tsconfig.json file
+npx tsc --init
+//replace new tsconfig.json file content with below:
+//original file: https://gist.github.com/hanuteam00/0306d94f6d0eebcbfc8ac737da334db6
+{
+"compilerOptions": {
+"target": "es2016",
+"module": "commonjs",
+"lib": ["dom", "es6", "es7"],
+"types": ["node","cypress"],
+"strict": true,
+"skipLibCheck": true
+},
+"exclude": ["node_modules"],
+"include": ["**/*.ts"]
+}
+*/
+
+//Install package in package.json
+npm install @badeball/cypress-cucumber-preprocessor --save-dev
+npm install @bahmutov/cypress-esbuild-preprocessor --save-dev
+npm install @faker-js/faker --save-dev
+npm install cypress-plugin-tab --save-dev
+npm install cypress-xpath --save-dev
+npm install esbuild --save-dev
+
+https://mathgpt-api-dev.tutoruniverse.net/_api_#/auth/get_refresh_token_token_refreshes_post => 405 Method Not Allowed
+=> fixed by replace URL: https://mathgpt-api-dev.tutoruniverse.net/token-refreshes
+
+//arguments
+https://docs.cypress.io/api/commands/type#Arguments
+cy.visit('https://example.cypress.io/todo')
+cy.get('[data-test=new-todo]').type(`${newItem}{enter}`)
+
+//find parent
+cy.visit('https://example.cypress.io/todo')
+cy.contains('Pay electric bill')
+      .parent()
+      .find('input[type=checkbox]')
+      .check()
+
+// to traverse multiple levels up the dom until we find the corresponding <li> element.
+// Once we get that element, we can assert that it has the completed class.
+cy.contains('Pay electric bill')
+      .parents('li')
+      .should('have.class', 'completed')
+
+// Delay each keypress by 0.1 sec
+      .type('slow.typing@email.com', { delay: 100 })
+// Ignore error checking prior to type
+      // like whether the input is visible or disabled
+      .type('disabled error checking', { force: true })
+
+
+
+
+//Part 2: Javascript Guideline
+//2.1. Basic Tutorial - 1-getting-started
+//arguments
+https://docs.cypress.io/api/commands/type#Arguments
+cy.visit('https://example.cypress.io/todo')
+cy.get('[data-test=new-todo]').type(`${newItem}{enter}`)
+
+//find parent
+cy.visit('https://example.cypress.io/todo')
+cy.contains('Pay electric bill')
+      .parent()
+      .find('input[type=checkbox]')
+      .check()
+
+//2.2. Advanced Tutorial - 2-advanced-examples
+//2.2.1. Cypress actions: https://example.cypress.io/commands/actions
+// to traverse multiple levels up the dom until we find the corresponding <li> element.
+// Once we get that element, we can assert that it has the completed class.
+cy.visit('https://example.cypress.io/todo')
+cy.contains('Walk the dog')
+      .parents('li')
+      .should('have.class', 'toggle')
+
+// click multiple elements by passing multiple: true
+cy.visit('https://example.cypress.io/commands/actions')
+cy.get('.action-labels>.label').click({ multiple: true })
+
+//To double click a DOM element, use the .dblclick() command.
+cy.get('.action-div').dblclick()
+
+//To right click a DOM element, use the .rightclick() command.
+cy.get('.rightclick-action-div').rightclick()
+
+//To check a checkbox or radio, use the .check() command.
+//To uncheck a checkbox or radio, use the .uncheck() command.
+
+//To select an option in a select, use the .select() command.
+cy.visit('https://example.cypress.io/commands/actions')
+cy.get('.action-select').select('apples')
+
+//To scroll an element into view, use the .scrollintoview() command.
+cy.visit('https://example.cypress.io/commands/actions')
+// scroll the button into view, as if the user had scrolled
+cy.get('#scroll-horizontal button').scrollIntoView()
+  .should('be.visible')
+//// Cypress knows to scroll to the right and down
+cy.get('#scroll-both button').scrollIntoView()
+  .should('be.visible')
+
+//To scroll the window or a scrollable element to a specific position, use the cy.scrollTo() command.
+// scroll the entire window
+cy.scrollTo('bottom')
+cy.get('#scrollable-horizontal').scrollTo('right')
+
+// control the easing of the scroll (default is 'swing')
+      //cuộn nó đến vị trí giữa với hàm giảm tốc tuyến tính
+      cy.get('#scrollable-vertical').scrollTo('center', { easing: 'linear' })
+
+//To trigger an event on a DOM element, use the .trigger() command.
+//gọi phương thức 'val' của phần tử đã chọn và đặt giá trị của nó thành 25
+//kích hoạt sự kiện 'change' trên phần tử đã chọn
+cy.get('.trigger-input-range')
+  .invoke('val', 25)
+  .trigger('change')
+  .get('input[type=range]').siblings('p')
+  .should('have.text', '25')
+
+//2.2.2. Aliasing https://example.cypress.io/commands/aliasing
+// The following DOM command chain is unwieldy. To avoid repeating it, let's use `.as()`!
+cy.get('.as-table')
+  .find('tbody>tr').first()
+  .find('td').first()
+  .find('button').as('firstBtn')
+
+// To reference the alias we created, we place an @ in front of its name
+cy.get('@firstBtn').click()
+
+//2.2.3. Assertions https://example.cypress.io/commands/assertions
+      //exact text, strict equality check, including case sensitivity
+      .should('have.text', 'Column content')
+      
+      //more flexible match,regular expression
+      .should('match', /column content/i)
+
+      .should('contain', 'Column content')
+      .should('have.html', 'Column content')
+
+      // chai-jquery uses "is()" to check if element matches selector
+      .should('match', 'td')
+      // to match text content against a regular expression, first need to invoke jQuery method text() and then match using regular expression
+      .invoke('text')
+      //more flexible match,regular expression
+      .should('match', /column content/i)
+
+//2.2.4. Connectors https://example.cypress.io/commands/connectors
+//To iterate over the elements of a current subject, use the .each() command.
+cy.get('.connectors-each-ul>li')
+  .each(function($el, index, $list){
+    console.log($el, index, $list)
+  })
+
+//To get the properties on the current subject, use the .its() command.
+cy.get('.connectors-its-ul>li')
+  // calls the 'length' property returning that value
+  .its('length')
+  .should('be.gt', 2)
+
+//To invoke a function on a current subject, use the .invoke() command.
+cy.get('.connectors-div').should('be.hidden')
+  // call the jquery method 'show' on the 'div.container'
+  .invoke('show')
+  .should('be.visible')
+
+//To spread an array as individual arguments to a callback function, use the .spread() command.
+const arr = ['foo', 'bar', 'baz']
+cy.wrap(arr).spread(function(foo, bar, baz){
+  expect(foo).to.eq('foo')
+  expect(bar).to.eq('bar')
+  expect(baz).to.eq('baz')
+})
+
+//must understand - .then() - https://example.cypress.io/commands/connectors
+To invoke a callback function with the current subject, use the .then() command.
+cy.get('.connectors-list>li').then(function($lis){
+  expect($lis).to.have.length(3)
+  expect($lis.eq(0)).to.contain('Walk the dog')
+  expect($lis.eq(1)).to.contain('Feed the cat')
+  expect($lis.eq(2)).to.contain('Write JavaScript')
+})
+
+//If the callback function returns a value, it is yielded to the next callback, just like in a Promise callback.
+cy.wrap(1)
+  .then((num) => {
+    expect(num).to.equal(1)
+    return 2
+  })
+  .then((num) => {
+    expect(num).to.equal(2)
+  })
+
+//But unlike a Promise, if undefined is returned, then the original value passed into the .then(cb) is yielded to the next callback.
+cy.wrap(1)
+  .then((num) => {
+    expect(num).to.equal(1)
+    // note that nothing is returned from this callback
+  })
+  .then((num) => {
+    // this callback receives the original unchanged value 1
+    expect(num).to.equal(1)
+  })
+
+If there are Cypress commands in the .then(cb) callback, then the value yielded by the last command will be passed to the next callback.
+
+cy.wrap(1)
+  .then((num) => {
+    expect(num).to.equal(1)
+    // note how we run a Cypress command
+    // the result yielded by this Cypress command
+    // will be passed to the second ".then"
+    cy.wrap(2)
+  })
+  .then((num) => {
+    // this callback receives the value yielded by "cy.wrap(2)"
+    expect(num).to.equal(2)
+  })
+
+//2.2.5. Cookies - https://example.cypress.io/commands/cookies
+//cy.getCookie(name) được sử dụng để lấy thông tin của một cookie cụ thể bằng cách chỉ định tên của cookie
+// cy.getCookie() yields a cookie object
+cy.getCookie('token').should('have.property', 'value', '123ABC')
+
+//To get browser cookies for the CURRENT DOMAIN, use the cy.getCookies() command.
+cy.getCookies().should('be.empty')
+cy.get('#getCookies .set-a-cookie').click()
+// cy.getCookies() yields an array of cookies
+cy.getCookies().should('have.length', 1).should((cookies) => {
+
+  // each cookie has these properties
+  expect(cookies[0]).to.have.property('name', 'token')
+  expect(cookies[0]).to.have.property('value', '123ABC')
+  expect(cookies[0]).to.have.property('httpOnly', false)
+  expect(cookies[0]).to.have.property('secure', false)
+  expect(cookies[0]).to.have.property('domain')
+  expect(cookies[0]).to.have.property('path')
+})
+
+//To get ALL browser cookies, use the cy.getAllCookies() command.
+cy.getAllCookies().should('be.empty')
+cy.setCookie('key', 'value')
+cy.setCookie('key', 'value', { domain: 'example.com' })
+
+// cy.getAllCookies() yields an array of cookies
+cy.getAllCookies().should('have.length', 2).should((cookies) => {
+  // each cookie has these properties
+  expect(cookies[0]).to.have.property('name', 'key')
+  expect(cookies[0]).to.have.property('value', 'value')
+  expect(cookies[0]).to.have.property('httpOnly', false)
+  expect(cookies[0]).to.have.property('secure', false)
+  expect(cookies[0]).to.have.property('domain')
+  expect(cookies[0]).to.have.property('path')
+
+  expect(cookies[1]).to.have.property('name', 'key')
+  expect(cookies[1]).to.have.property('value', 'value')
+  expect(cookies[1]).to.have.property('httpOnly', false)
+  expect(cookies[1]).to.have.property('secure', false)
+  expect(cookies[1]).to.have.property('domain', 'example.com')
+  expect(cookies[1]).to.have.property('path')
+})
+
+//To set a browser cookie, use the cy.setCookie() command.
+cy.getCookies().should('be.empty')
+cy.setCookie('foo', 'bar')
+// cy.getCookie() yields a cookie object
+cy.getCookie('foo').should('have.property', 'value', 'bar')
+
+//Clear cookies
+cy.clearCookie('token').should('be.null') //clear exact cookie
+cy.clearCookies()                         //clear current domain
+cy.clearAllCookies()                      //all domains (browser cookies)
+
+//2.2.6. Cypress API - https://example.cypress.io/cypress-api
+
+//2.2.7. Files - https://example.cypress.io/commands/files
+cy.fixture('data').then(function (data) {
+            this.data = data;
+        })
+
+cy.fixture('example.json').as('example')
+
+cy.request('https://jsonplaceholder.cypress.io/users')
+      .then((response) => {
+        cy.writeFile('cypress/fixtures/users.json', response.body)
+      })
+      //verify values
+    cy.fixture('users').should((users) => {
+      expect(users[0].name).to.exist
+
+cy.writeFile('cypress/fixtures/profile.json', {
+      id: 8739,
+      name: 'Jane',
+      email: 'jane@example.com',
+    })
+
+    cy.fixture('profile').should((profile) => {
+      expect(profile.name).to.eq('Jane')
+    })
+
+//2.2.8. MISC (miscellaneous commands) - https://example.cypress.io/commands/misc
+//To end the command chain, use the .end() command.
+// cy.end is useful when you want to end a chain of commands
+// and force Cypress to re-query from the root element
+cy.get('.misc-table').within(() => {
+  // ends the current chain and yields null
+  cy.contains('Cheryl').click().end()
+
+  // queries the entire table again
+  cy.contains('Charles').click()
+})
+
+code1 - đặt phạm vi tìm kiếm vào bên trong phần tử có class 'misc-table'
+cy.get('.misc-table').within(() => { //code here })
+code2: find child elements within the currently selected element
+cy.get('.misc-table').find(() => { //code here })
+code3: Code này không thực hiện hành động cụ thể với '.misc-table' trong phần tử gốc
+cy.get('.misc-table').then(() => { //code here })
+
+cy.get('.misc-table').within(() => {
+  cy.find(() => {
+    // code here
+  });
+});
+This way, you can nest find() within within() to achieve a similar scoping effect
