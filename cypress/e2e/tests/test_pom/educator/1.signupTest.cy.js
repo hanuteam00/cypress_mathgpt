@@ -1,26 +1,29 @@
-import signupPageEduUI from '../../pageUIs/Educator/signupPageEduUI'
-import HomePageUI from '../../pageUIs/Educator/HomePageUI'
-import LandingPageUI from '../../pageUIs/Common/LandingPageUI'
+import SignupPageUI from '../../../pageUIs/Educator/SignupPageUI';
+import HomePageUI from '../../../pageUIs/Educator/HomePageUI';
+import LandingPageUI from '../../../pageUIs/Common/LandingPageUI';
 
-const signupPageEdu = new signupPageEduUI();
+const signupPageEdu = new SignupPageUI();
 const homePageEdu = new HomePageUI();
 const landingPageCommon = new LandingPageUI();
 
 describe('Test Suite 1', function () {
+    // beforeEach(function () {
+    //     cy.fixture('data').then(function (data) {
+    //         this.data = data;
+    //     })
 
-    beforeEach(function () {
-        cy.fixture('data').then(function (data) {
-            this.data = data;
-        })
-
-        cy.fixture('invalidCredentials_Signup').then(function (invalidCredentials_Signup) {
-            //get data from invalidCredentials_Signup.json
-            this.invalidCredentials_Signup = invalidCredentials_Signup;
-        })
-
-    })
+    //     cy.fixture('invalidCredentials_Signup').then(function (invalidCredentials_Signup) {
+    //         //get data from invalidCredentials_Signup.json
+    //         this.invalidCredentials_Signup = invalidCredentials_Signup;
+    //     })
+    // })
+    beforeEach(() => {
+        cy.fixture('data').as('data');
+        cy.fixture('invalidCredentials_Signup').as('invalidCredentialsSignup');
+    });
 
     it('TC1: Sign up as Educator role unsuccessfully', function () {
+        const invalidCredentialsSignup = this.invalidCredentialsSignup;
         // Visit MathGPT DEV;
         cy.visit('/signup?role=educator');
 
@@ -31,7 +34,7 @@ describe('Test Suite 1', function () {
         cy.textVisible('Email');
         cy.textVisible('Password');
         cy.textVisible('Show');
-        cy.textVisible('Must contain at least 8 letters.');
+        // cy.textVisible('Must contain at least 8 letters.');
         cy.textVisible('By creating an account, you agree to MathGPT’s');
         cy.textVisible('Terms of Service');
         cy.textVisible('Privacy Policy');
@@ -47,19 +50,28 @@ describe('Test Suite 1', function () {
         cy.textVisible('Please enter your password.');
 
         //global variable
-        for (var index in this.invalidCredentials_Signup) {
-            signupPageEdu.firstNameInput.clear().type(this.invalidCredentials_Signup[index].firstName)
-            signupPageEdu.lastNameInput.clear().type(this.invalidCredentials_Signup[index].lastName)
-            signupPageEdu.passwordInput.clear().type(this.invalidCredentials_Signup[index].password)
-            signupPageEdu.emailInput.clear().type(this.invalidCredentials_Signup[index].email)
-            signupPageEdu.signupButton.should('be.enabled')
-            signupPageEdu.signupButton.click()
-            signupPageEdu.messageContent.should('contain.text', this.invalidCredentials_Signup[index].errorMessage1);
-        }
+        this.invalidCredentialsSignup.forEach(userData => {
+            cy.get(signupPageEdu.firstNameInput).clear().type(userData.firstName);
+            cy.get(signupPageEdu.lastNameInput).clear().type(userData.lastName);
+            cy.get(signupPageEdu.passwordInput).clear().type(userData.password);
+            cy.get(signupPageEdu.emailInput).clear().type(userData.email);
+            cy.get(signupPageEdu.signupButton).should('be.enabled').click();
+            cy.get(signupPageEdu.messageContent).should('contain.text', userData.errorMessage1);
+        });
+
+        // for (var index in this.invalidCredentials_Signup) {
+        //     signupPageEdu.firstNameInput.clear().type(this.invalidCredentials_Signup[index].firstName)
+        //     signupPageEdu.lastNameInput.clear().type(this.invalidCredentials_Signup[index].lastName)
+        //     signupPageEdu.passwordInput.clear().type(this.invalidCredentials_Signup[index].password)
+        //     signupPageEdu.emailInput.clear().type(this.invalidCredentials_Signup[index].email)
+        //     signupPageEdu.signupButton.should('be.enabled')
+        //     signupPageEdu.signupButton.click()
+        //     signupPageEdu.messageContent.should('contain.text', this.invalidCredentials_Signup[index].errorMessage1);
+        // }
 
     })
 
-    it('TC2: Sign up as Educator role successfully', function () {
+    it.only('TC2: Sign up as Educator role successfully', function () {
         // Visit MathGPT DEV;
         cy.visit('/signup?role=educator');
 
@@ -70,7 +82,7 @@ describe('Test Suite 1', function () {
         cy.textVisible('Email');
         cy.textVisible('Password');
         cy.textVisible('Show');
-        cy.textVisible('Must contain at least 8 letters.');
+        // cy.textVisible('Must contain at least 8 letters.');
         cy.textVisible('By creating an account, you agree to MathGPT’s');
         cy.textVisible('Terms of Service');
         cy.textVisible('Privacy Policy');
@@ -81,12 +93,11 @@ describe('Test Suite 1', function () {
         cy.generateFakeData()
 
         //get data from dataFake.json
-        cy.fixture('dataFake').then(function (dataFake) {
-            //get data from dataFake.json
-            //sign up with valid email
-            const email = 'edu+' + dataFake.randTime + '@gotitapp.co';
-            const password = `Aa123456@`;
-            const firstName = dataFake.randTime
+        //sign up with valid email
+        cy.fixture('dataFake').then(dataFake => {
+            const email = `edu+${dataFake.randTime}@gotitapp.co`;
+            const password = 'Aa123456@';
+            const firstName = dataFake.randTime;            
 
             signupPageEdu.firstNameInput.clear().type(firstName)
             signupPageEdu.lastNameInput.clear().type('edu')

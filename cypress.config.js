@@ -24,8 +24,8 @@ module.exports = defineConfig({
     pageLoadTimeout: 30000,
     //end of custom configuration
 
-    viewportWidth: 1440,
-    viewportHeight: 900,
+    viewportWidth: 1920,
+    viewportHeight: 1080,
 
     baseUrl: 'https://dev.mathgpt.ai'
 

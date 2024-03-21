@@ -469,10 +469,10 @@ Cypress.Commands.add('loginByAPIgetRefreshToken', (token_refreshes_api_url, orig
   // })
 })
 
-Cypress.Commands.add('loginByAPIgetRefreshTokenFromUILogin', (login_api_get_refresh_token, token_refreshes_api_url, email, password) => {
-  // Step 1: Log in using API
+Cypress.Commands.add('loginAPIThenGetAccessTokenAPI', (login_api_get_refresh_token, token_refreshes_api_url, email, password) => {
+  // Step 1: Login API
   cy.request({
-    url: login_api_get_refresh_token, //api to login
+    url: login_api_get_refresh_token,
     method: 'POST',
     headers: {
       contentType: 'application/json'
@@ -484,8 +484,7 @@ Cypress.Commands.add('loginByAPIgetRefreshTokenFromUILogin', (login_api_get_refr
   }).then(loginResponse => {
     // Assuming the response contains the refresh token
     const original_refresh_token = loginResponse.body.refresh_token;
-
-    // Step 2: Call your API to get new tokens
+    // Step 2: Get new token API
     cy.request({
       url: token_refreshes_api_url,
       method: 'POST',
@@ -494,20 +493,22 @@ Cypress.Commands.add('loginByAPIgetRefreshTokenFromUILogin', (login_api_get_refr
       },
       body: { "refresh_token": original_refresh_token }
     }).then(res => {
-      const responseBody = res.body;
-      const access_token = responseBody.access_token;
-      const refresh_token = responseBody.refresh_token;
+      const { access_token, refresh_token } = res.body;
+      // const responseBody = res.body;
+      // const access_token = responseBody.access_token;
+      // const refresh_token = responseBody.refresh_token;
 
-      // Save tokens to local storage
+      // Step 3: Save tokens to local storage
       window.localStorage.setItem('gotit.mathgpt.authenticated_access_token', access_token);
       window.localStorage.setItem('gotit.mathgpt.authenticated_refresh_token', refresh_token);
 
-      // Write tokens to a file
-      const filename1 = 'cypress/fixtures/token.json';
-      cy.writeFile(filename1, {
-        'access_token': access_token,
-        'refresh_token': refresh_token
-      });
+      // Step 4: Write tokens to a file
+      const filename = 'cypress/fixtures/token.json';
+      cy.writeFile(filename, { access_token, refresh_token });
+      // cy.writeFile(filename1, {
+      //   'access_token': access_token,
+      //   'refresh_token': refresh_token
+      // });
     });
   });
 });  
