@@ -1,4 +1,4 @@
-import HomePageUI from '../../../../pageUIs/MathGPT/Educator/HomePageUI'
+import HomePageUI from '../../../pageUIs/Educator/HomePageUI'
 
 const homePageEdu = new HomePageUI();
 
@@ -11,7 +11,8 @@ describe('Test Suite 1', function () {
         //generate fake data and write to dataFake.json
         cy.generateFakeData()
 
-        cy.loginByAPIgetRefreshToken("https://mathgpt-api.tutoruniverse.com/token-refreshes","eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI1MTEiLCJleHAiOjE3MDY1NDAxMjYsImp0aSI6IjQ2YzU0M2IyYjkzNjExZWU5MTM3OGU3MzE1ZDk3MDc1IiwiaXNzIjoiZ290LWl0LmFpL3Bob3Rvc3R1ZHkifQ.I4fXqNkD3orFmmaQ6UuIDBjZgX0zG3UDcu9jhjwPLJ6tY3wX22_noXBSgwYFhtzMRCr0chxv78L4b7ApGfuwE6UG4AnSqnfS3ETWXwyNpGeVvAqE17moiWJs41_Z5NvvoTh-W5mlL_DrW9_wIDc8FduF5cajqMoM_8TVk9woGPMiunqd7Dw5aF4VPnfZh9vdaFc7CtsodLCfj2cM-ByV_28H3-OoivELbhB1rFTiqOGuH7ocIKjW2UKUrUuqHLhA_k97Hwz0v92uLUnkxwRZ4VsacIl24xdZxlNaSSzca-V6xwC6UfvWvc5LpbiGYv9aGTyDnuBuHawlLMXtUurzDA")
+        // cy.loginByAPIgetRefreshToken("https://mathgpt-api.tutoruniverse.com/token-refreshes","eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI1MTEiLCJleHAiOjE3MDY1NDAxMjYsImp0aSI6IjQ2YzU0M2IyYjkzNjExZWU5MTM3OGU3MzE1ZDk3MDc1IiwiaXNzIjoiZ290LWl0LmFpL3Bob3Rvc3R1ZHkifQ.I4fXqNkD3orFmmaQ6UuIDBjZgX0zG3UDcu9jhjwPLJ6tY3wX22_noXBSgwYFhtzMRCr0chxv78L4b7ApGfuwE6UG4AnSqnfS3ETWXwyNpGeVvAqE17moiWJs41_Z5NvvoTh-W5mlL_DrW9_wIDc8FduF5cajqMoM_8TVk9woGPMiunqd7Dw5aF4VPnfZh9vdaFc7CtsodLCfj2cM-ByV_28H3-OoivELbhB1rFTiqOGuH7ocIKjW2UKUrUuqHLhA_k97Hwz0v92uLUnkxwRZ4VsacIl24xdZxlNaSSzca-V6xwC6UfvWvc5LpbiGYv9aGTyDnuBuHawlLMXtUurzDA")
+        cy.loginByAPIgetRefreshTokenFromUILogin('https://mathgpt-api-dev.tutoruniverse.net/login','https://mathgpt-api-dev.tutoruniverse.net/token-refreshes', 'manh+edu1@mailnesia.com','Aa123456@')
         // cy.loginByAPIgetRefreshToken("https://mathgpt-api-dev.tutoruniverse.net//token-refreshes", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0NjQiLCJleHAiOjE3MDY0MDc1NzksImp0aSI6ImFhYTlmMTc0YjgwMTExZWViN2U1YmVhOTQ1MTBkNzQ1IiwiaXNzIjoiZ290LWl0LmFpL3Bob3Rvc3R1ZHkifQ.KYVeeZOzbRE0asPkvCIlViegsHchB4dURZ1EzlKpAWC5iPmo3jHIwYOjrm08y9oq6Eya6dUbtWv-_XeksLzThkaryoAaL18avivkUahF8FKKBxmbFIQYcJnl34BO2oXLJLrafeIOcIO0D9EnowK_jB2W0uYe4SsBCXPQfHxoABH3pod1OE5GF_XVxtsRKD24ado9QRx8iZf_VmdbUvuqHepvfWAJB4gTPoucajIp5IwxWEmZArSSbYtKwX4uuvqM5khpiCZ-_xztuVTEUxXQnN0GsEgU2YZKd26ScSHr-h0Hgr5sjhzpF2CxcFwGcLqqcCJGs7ntqbsJbYf-SK_c_A")
 
         //get data from dataFake.json
@@ -81,30 +82,5 @@ describe('Test Suite 1', function () {
         loginPage.passwordError.should('not.exist');
         loginPage.messageContent.should('contain.text', 'Invalid email or password. Please try again!')
         */
-    })
-    it('TC2: Login successfuly', function () {
-        cy.visit('/login?role=educator');
-
-        //Verify that current page is 'Instructor login' page
-        cy.textVisible('Instructor login');
-        cy.textVisible('Email');
-        cy.textVisible('Password');
-        cy.textVisible('Forgot password?');
-        cy.textVisible('Show');
-        cy.textVisible('Log in');
-        cy.textVisible('Log in with Google');
-        cy.textVisible(`Don't have an account?`);
-        cy.textVisible('Sign up');
-        loginPage.loginButton.should('be.visible')
-
-        //Input valid email, valid password
-        loginPage.emailInput.clear().type(this.realEduAccount[0].email);
-        loginPage.passwordInput.clear().type(this.realEduAccount[0].password);
-        loginPage.loginButton.click();
-
-        //Verify Educator login successfully and is redirected to Home Page
-        homePageEdu.greatingMessage.should('contain.text', 'Welcome, ' + this.realEduAccount[0].firstName);
-        homePageEdu.instructorSummary.should('contain.text', 'Manage your courses and students, all in one place!');
-
     })
 })

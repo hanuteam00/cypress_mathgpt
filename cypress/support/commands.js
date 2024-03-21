@@ -367,7 +367,7 @@ Cypress.Commands.add('loginByPredefinedAccessToken', (email, password) => {
 //   return originalFn(subject, value, { ...options, matchCase });
 // });
 
-Cypress.Commands.add('loginByAccessToken', (url,email,code,accessToken) => {
+Cypress.Commands.add('loginByAccessToken', (url, email, code, accessToken) => {
   // Cypress.Commands.add('loginByAccessToken', (
   // cy.session([email, password], () => {
   //step 1 (mandatory): send request to get token
@@ -396,7 +396,7 @@ Cypress.Commands.add('textVisible', (text) => {
   return cy.contains(text).should('be.visible');
 });
 
-Cypress.Commands.add('elementContainsText', (element,text) => {
+Cypress.Commands.add('elementContainsText', (element, text) => {
   return cy.get(element).contains(text)
 });
 
@@ -408,28 +408,28 @@ Cypress.Commands.add('elementDisabled', (text) => {
 Cypress.Commands.add('randomClick', (element) => {
   //click a random book
   cy.get(element)
-  .should('have.length.gte', 1)
-  .its('length')
-  .then((n) => Cypress._.random(0, n - 1))
-  .then((k) => {
+    .should('have.length.gte', 1)
+    .its('length')
+    .then((n) => Cypress._.random(0, n - 1))
+    .then((k) => {
       // cy.log(`picked random index ${k}`)
       cy.get(element).eq(k).click()
-  })
+    })
 });
 
 //If Keep hackers out page is displayed, click on Skip button
-Cypress.Commands.add('elementExists', (selector,textToVerify) => {
+Cypress.Commands.add('elementExists', (selector, textToVerify) => {
   //Element exists or not: https://stackoverflow.com/questions/56145926/how-to-check-if-element-exists-using-cypress-io
   cy.get('body').then($body => {
     if ($body.find(selector).length) {
-        //Do something if exist
-        cy.get(selector).should('contains.text', textToVerify);
-        cy.get('#ap-account-fixup-phone-skip-link').click();
+      //Do something if exist
+      cy.get(selector).should('contains.text', textToVerify);
+      cy.get('#ap-account-fixup-phone-skip-link').click();
     }
-    else{
-        //do if not exist
+    else {
+      //do if not exist
     }
-})
+  })
 });
 
 // // set match case to default false
@@ -440,31 +440,74 @@ Cypress.Commands.add('elementExists', (selector,textToVerify) => {
 
 Cypress.Commands.add('loginByAPIgetRefreshToken', (token_refreshes_api_url, original_refresh_token) => {
   // cy.session([email, password], () => {
-    //step 1: send request to get token
+  //step 1: send request to get token
+  cy.request({
+    url: token_refreshes_api_url,
+    method: 'POST',
+    headers: {
+      contentType: "application/json",
+      // accept: "application/json",
+    },
+    body: { "refresh_token": original_refresh_token }
+    //step 2: then save token to local storage
+  }).then(res => {
+    const responseBody = res.body;
+    const access_token = responseBody.access_token
+    const refresh_token = responseBody.refresh_token
+
+    // window.localStorage.setItem('questionable-portal.demo.demo-auth', `${tokenByAPI}`) //not work
+    window.localStorage.setItem('gotit.mathgpt.authenticated_access_token', access_token);
+    window.localStorage.setItem('gotit.mathgpt.authenticated_refresh_token', refresh_token);
+
+    //step 4 (optional): create a new file to store data
+    const filename1 = 'cypress/fixtures/token.json'
+    cy.writeFile(filename1, {
+      'access_token': access_token,
+      'refresh_token': refresh_token
+    })
+  })
+  // })
+})
+
+Cypress.Commands.add('loginByAPIgetRefreshTokenFromUILogin', (login_api_get_refresh_token, token_refreshes_api_url, email, password) => {
+  // Step 1: Log in using API
+  cy.request({
+    url: login_api_get_refresh_token, //api to login
+    method: 'POST',
+    headers: {
+      contentType: 'application/json'
+    },
+    body: {
+      email: email,
+      password: password
+    }
+  }).then(loginResponse => {
+    // Assuming the response contains the refresh token
+    const original_refresh_token = loginResponse.body.refresh_token;
+
+    // Step 2: Call your API to get new tokens
     cy.request({
       url: token_refreshes_api_url,
       method: 'POST',
       headers: {
-        contentType: "application/json",
-        // accept: "application/json",
+        contentType: 'application/json'
       },
-      body: { "refresh_token": original_refresh_token}
-      //step 2: then save token to local storage
+      body: { "refresh_token": original_refresh_token }
     }).then(res => {
       const responseBody = res.body;
-      const access_token = responseBody.access_token
-      const refresh_token = responseBody.refresh_token
-      
-      // window.localStorage.setItem('questionable-portal.demo.demo-auth', `${tokenByAPI}`) //not work
+      const access_token = responseBody.access_token;
+      const refresh_token = responseBody.refresh_token;
+
+      // Save tokens to local storage
       window.localStorage.setItem('gotit.mathgpt.authenticated_access_token', access_token);
       window.localStorage.setItem('gotit.mathgpt.authenticated_refresh_token', refresh_token);
 
-      //step 4 (optional): create a new file to store data
-      const filename1 = 'cypress/fixtures/token.json'
+      // Write tokens to a file
+      const filename1 = 'cypress/fixtures/token.json';
       cy.writeFile(filename1, {
         'access_token': access_token,
         'refresh_token': refresh_token
-      })
-    })
-  // })
-})
+      });
+    });
+  });
+});  

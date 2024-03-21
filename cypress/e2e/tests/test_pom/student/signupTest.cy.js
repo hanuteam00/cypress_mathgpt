@@ -1,5 +1,5 @@
-import SignupPageUI from '../../../../pageUIs/MathGPT/Educator/SignupPageUI'
-import HomePageUI from '../../../../pageUIs/MathGPT/Educator/HomePageUI'
+import SignupPageUI from '../../../pageUIs/Student/SignupPageUI'
+import HomePageUI from '../../../pageUIs/Student/HomePageUI'
 
 const signupPage = new SignupPageUI();
 const homePageEdu = new HomePageUI();
@@ -10,6 +10,13 @@ describe('Test Suite 1', function () {
         cy.fixture('data').then(function (data) {
             this.data = data;
         })
+        //generate fake data and write to dataFake.json
+        cy.generateFakeData()
+        //get data from dataFake.json
+        cy.fixture('dataFake').then(function (dataFake) {
+            //get data from dataFake.json
+            this.dataFake = dataFake;
+        })
 
         cy.fixture('invalidCredentials_Signup').then(function (invalidCredentials_Signup) {
             //get data from invalidCredentials_Signup.json
@@ -18,12 +25,12 @@ describe('Test Suite 1', function () {
 
     })
 
-    it('TC1: Sign up as Educator role unsuccessfully', function () {
+    it('TC1: Sign up as Student role unsucessfully', function () {
         // Visit MathGPT DEV;
-        cy.visit('/signup?role=educator');
+        cy.visit('/signup?role=student');
 
         //Verify that current page is 'Create an Instructor account' page
-        cy.textVisible('Create an Instructor account');
+        cy.textVisible('Create a Student account');
         cy.textVisible('First name');
         cy.textVisible('Last name');
         cy.textVisible('Email');
@@ -52,17 +59,17 @@ describe('Test Suite 1', function () {
             signupPage.emailInput.clear().type(this.invalidCredentials_Signup[index].email)
             signupPage.signupButton.should('be.enabled')
             signupPage.signupButton.click()
-            signupPage.messageContent.should('contain.text', this.invalidCredentials_Signup[index].errorMessage1);
+            signupPage.messageContent.should('contain.text', this.invalidCredentials_Signup[index].errorMessage2);
         }
 
     })
 
-    it('TC2: Sign up as Educator role successfully', function () {
+    it('TC2: Sign up as Student role sucessfully', function () {
         // Visit MathGPT DEV;
-        cy.visit('/signup?role=educator');
+        cy.visit('/signup?role=student');
 
         //Verify that current page is 'Create an Instructor account' page
-        cy.textVisible('Create an Instructor account');
+        cy.textVisible('Create a Student account');
         cy.textVisible('First name');
         cy.textVisible('Last name');
         cy.textVisible('Email');
@@ -75,34 +82,23 @@ describe('Test Suite 1', function () {
         cy.textVisible('Already have an account?');
         signupPage.signupButton.should('be.visible')
 
-        //generate fake data and write to dataFake.json
-        cy.generateFakeData()
+        //sign up with valid email
+        const email = 'stu+' + this.dataFake.randTime + '@gotitapp.co';
+        const password = `Aa123456@`;
+        const firstName = this.dataFake.randTime
 
-        //get data from dataFake.json
-        cy.fixture('dataFake').then(function (dataFake) {
-            //get data from dataFake.json
-            //sign up with valid email
-            const email = 'edu+' + dataFake.randTime + '@gotitapp.co';
-            const password = `Aa123456@`;
-            const firstName = dataFake.randTime
+        signupPage.firstNameInput.clear().type(firstName)
+        signupPage.lastNameInput.clear().type('stu')
+        signupPage.passwordInput.clear().type(password)
+        signupPage.emailInput.clear().type(email)
+        signupPage.signupButton.should('be.enabled')
+        signupPage.signupButton.click()
 
-            signupPage.firstNameInput.clear().type(firstName)
-            signupPage.lastNameInput.clear().type('edu')
-            signupPage.passwordInput.clear().type(password)
-            signupPage.emailInput.clear().type(email)
-            signupPage.signupButton.should('be.enabled')
-            signupPage.signupButton.click()
+        //save account after successful registration in realEduAccount.json
+        cy.writeDataToFile('cypress/fixtures/realStuAccount.json', email, password, firstName)
 
-            //save account after successful registration in realEduAccount.json
-            cy.writeDataToFile('cypress/fixtures/realEduAccount.json', email, password, firstName)
-
-            //Verify Educator register successfully and is redirected to Home Page
-            homePageEdu.greatingMessage.should('contain.text', 'Welcome, ' + dataFake.randTime + '!');
-            homePageEdu.instructorSummary.should('contain.text', 'Manage your courses and students, all in one place!');
-            // homePageEdu.createCourseSummary.should('contain.text', 'Begin your teaching journey with MathGPT by creating your first course today!');
-
-        })
-
+        //Verify Educator register successfully and is redirected to Home Page
+        homePageEdu.greatingMessage.should('contain.text', 'Welcome, ' + this.dataFake.randTime + '!');
 
     })
 
