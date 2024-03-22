@@ -1,0 +1,18 @@
+[
+  {
+    "firstName": "existingAccount",
+    "lastName": "gotit",
+    "password": "Aa123456@",
+    "email": "gotit+existingAccount@gotitapp.co",
+    "errorMessage1": "The account already exists. Please log in to continue.",
+    "errorMessage2": "The account already exists. Please log in to continue."
+  },
+  {
+    "firstName": "invalidDomain",
+    "lastName": "gotit",
+    "password": "Aa123456@",
+    "email": "gotit+invalidDomain@gmail.com",
+    "errorMessage1": "Access to MathGPT is currently not enabled for your account. Please reach out to the Got It admin for assistance.",
+    "errorMessage2": "MathGPT service is not yet available for your account. Please ask your professor/instructor to get access!"
+  }
+]

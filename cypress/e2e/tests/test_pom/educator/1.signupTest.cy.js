@@ -95,9 +95,19 @@ describe('Test Suite 1', function () {
         //get data from dataFake.json
         //sign up with valid email
         cy.fixture('dataFake').then(dataFake => {
-            const email = `edu+${dataFake.randTime}@gotitapp.co`;
+
+            // Parse the JSON data into JavaScript objects
+            // const jsonData = JSON.parse(dataFake);
+
+            // Get the last item from the array
+            const lastItem = dataFake[dataFake.length - 1];
+
+            // Access the randTime property of the last item and log it
+            cy.log('randTime:', lastItem.randTime);
+
+            const email = `edu+${lastItem.randTime}@gotitapp.co`;
             const password = 'Aa123456@';
-            const firstName = dataFake.randTime;            
+            const firstName = lastItem.randTime;
 
             signupPageEdu.firstNameInput.clear().type(firstName)
             signupPageEdu.lastNameInput.clear().type('edu')
@@ -110,7 +120,7 @@ describe('Test Suite 1', function () {
             cy.writeDataToFile('cypress/fixtures/realEduAccount.json', email, password, firstName)
 
             //Verify Educator register successfully and is redirected to Home Page
-            homePageEdu.greatingMessage.should('contain.text', 'Welcome, ' + dataFake.randTime + '!');
+            homePageEdu.greatingMessage.should('contain.text', 'Welcome, ' + lastItem.randTime + '!');
             homePageEdu.instructorSummary.should('contain.text', 'Manage your courses and students, all in one place!');
             // homePageEdu.createCourseSummary.should('contain.text', 'Begin your teaching journey with MathGPT by creating your first course today!');
 
