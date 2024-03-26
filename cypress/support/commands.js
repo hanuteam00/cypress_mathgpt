@@ -190,9 +190,18 @@ Cypress.Commands.add('getOTPfromSlack', (urlData, tokenData, parentXpath) => {
   })
 })
 
-//https://dev.to/walmyrlimaesilv/how-to-create-fixtures-with-random-data-using-cypress-and-faker-46cl    
+//https://dev.to/walmyrlimaesilv/how-to-create-fixtures-with-random-data-using-cypress-and-faker-46cl
+/*
+Cypress.Commands.add('writeDataToFile', (fileNamePath, data1, data2, data3) => {
+  cy.readFile(fileNamePath).then((data) => {
+    data.push({ 'email': data1, 'password': data2, 'firstName': data3 })
+    cy.writeFile(fileNamePath, data)
+  })
+})
+*/
 Cypress.Commands.add('generateFakeData', () => {
   const filename1 = 'cypress/fixtures/dataFake.json'
+
   let randPassword = faker.internet.password();
   let randFirstName = faker.name.firstName();
   let randLastName = faker.name.lastName();
@@ -200,6 +209,7 @@ Cypress.Commands.add('generateFakeData', () => {
   let randTime = Date.now();
   let randEmail = randFirstName + randLastName + '@gotitapp.co';
 
+  /*
   cy.writeFile(filename1, {
     'randEmail': randEmail,
     'randPassword': randPassword,
@@ -208,7 +218,42 @@ Cypress.Commands.add('generateFakeData', () => {
     'randPhone': randPhone,
     'randTime': randTime
   })
-})
+  */
+
+  // cy.readFile(filename1).then(existingData => {
+  //   // Check if existingData is null or undefined
+  //   // If it is, initialize data as an empty array
+  //   // Otherwise, parse existingData
+  //   // const data = existingData ? JSON.parse(existingData) : [];
+
+  //   // Push new data to the array
+  //   existingData.push({
+  //     'randEmail': randEmail,
+  //     'randPassword': randPassword,
+  //     'randFirstName': randFirstName,
+  //     'randLastName': randLastName,
+  //     'randPhone': randPhone,
+  //     'randTime': randTime
+  //   });
+  //   // Write the updated data back to the file
+  //   cy.writeFile(filename1, JSON.stringify(existingData));
+  // })
+
+  cy.readFile(filename1, (err, data5) => {
+    if (err) {
+      return console.error(err);
+    };
+  }).then((data) => {
+    data.push({ 'randEmail': randEmail,
+    'randPassword': randPassword,
+    'randFirstName': randFirstName,
+    'randLastName': randLastName,
+    'randPhone': randPhone,
+    'randTime': randTime })
+    cy.writeFile(filename1, data)
+  })
+
+});
 
 //write data after successful registration
 Cypress.Commands.add('writeToJson', (fileNamePath, data1, data2, data3, data4) => {
@@ -224,6 +269,8 @@ Cypress.Commands.add('writeToJson', (fileNamePath, data1, data2, data3, data4) =
     data.push({ 'randEmail': data1, 'randPassword': data2, 'randPhone': data3, 'randTime': data4 })
     cy.writeFile(filename, data)
   })
+
+
 })
 
 // parse XLSX file and write to JSON
@@ -511,4 +558,4 @@ Cypress.Commands.add('loginAPIThenGetAccessTokenAPI', (login_api_get_refresh_tok
       // });
     });
   });
-});  
+}); 

@@ -1,8 +1,58 @@
-{
-  "randEmail": "HeavenBosco@gotitapp.co",
-  "randPassword": "e2wdIRPwy8yDohh",
-  "randFirstName": "Heaven",
-  "randLastName": "Bosco",
-  "randPhone": "0932746782",
-  "randTime": 1711037227214
-}
+[
+  {
+    "randEmail": "RaphaelRice@gotitapp.co",
+    "randPassword": "OzyVEEYVGLtGRlL",
+    "randFirstName": "Raphael",
+    "randLastName": "Rice",
+    "randPhone": "0977931685",
+    "randTime": 1711071127961
+  },
+  {
+    "randEmail": "LeonardoLang@gotitapp.co",
+    "randPassword": "pGzvRoX8fJEqlAw",
+    "randFirstName": "Leonardo",
+    "randLastName": "Lang",
+    "randPhone": "0963165807",
+    "randTime": 1711071255305
+  },
+  {
+    "randEmail": "JenningsBecker@gotitapp.co",
+    "randPassword": "1tcoCORDYzBF2E7",
+    "randFirstName": "Jennings",
+    "randLastName": "Becker",
+    "randPhone": "0928018886",
+    "randTime": 1711107358155
+  },
+  {
+    "randEmail": "JacklynPowlowski@gotitapp.co",
+    "randPassword": "ChHyW6RR1qeDNAE",
+    "randFirstName": "Jacklyn",
+    "randLastName": "Powlowski",
+    "randPhone": "0973294900",
+    "randTime": 1711107390142
+  },
+  {
+    "randEmail": "YoshikoHermann@gotitapp.co",
+    "randPassword": "QXz2uVLoCdtLyX3",
+    "randFirstName": "Yoshiko",
+    "randLastName": "Hermann",
+    "randPhone": "0900333123",
+    "randTime": 1711107448225
+  },
+  {
+    "randEmail": "SophieSchoen@gotitapp.co",
+    "randPassword": "f9eQCfu_xZ0ORBw",
+    "randFirstName": "Sophie",
+    "randLastName": "Schoen",
+    "randPhone": "0925938957",
+    "randTime": 1711107528588
+  },
+  {
+    "randEmail": "VictoriaGleason-Wisozk@gotitapp.co",
+    "randPassword": "LP7nq8nrgNX9uRz",
+    "randFirstName": "Victoria",
+    "randLastName": "Gleason-Wisozk",
+    "randPhone": "0996804785",
+    "randTime": 1711107631606
+  }
+]

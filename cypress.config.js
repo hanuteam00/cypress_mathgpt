@@ -21,7 +21,7 @@ module.exports = defineConfig({
 
     //60000 by default
     //time, in milliseconds, to wait for page transition events or cy.visit(), cy.go(), cy.reload() commands to fire their page load events.
-    pageLoadTimeout: 30000,
+    pageLoadTimeout: 60000,
     //end of custom configuration
 
     viewportWidth: 1920,
