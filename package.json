@@ -9,7 +9,7 @@
     "@faker-js/faker": "^8.3.1",
     "@types/lodash": "^4.17.0",
     "axios": "^1.6.8",
-    "cypress": "^13.7.0",
+    "cypress": "^13.7.1",
     "cypress-plugin-tab": "^1.0.5",
     "cypress-xpath": "^2.0.1",
     "esbuild": "^0.20.2",
@@ -20,5 +20,8 @@
     "stepDefinitions": [
       "cypress/e2e/tests/step_definitions/*.{js,ts}"
     ]
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
   }
 }
