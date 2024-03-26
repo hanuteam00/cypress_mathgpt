@@ -11,7 +11,10 @@ describe('template spec', () => {
     cy.visit('https://gotit.testrail.net/index.php?/suites/view/350&group_by=cases:section_id&group_order=asc&display_deleted_cases=0&group_id=17799');
 
     //click on add test case
-    cy.get('#inlineSectionActions-17799 > [data-testid="suiteAddCaseLink"]').click();
+    // cy.get('#inlineSectionActions-17799 > [data-testid="suiteAddCaseLink"]').click();
+    cy.get('[data-testid="suiteAddCaseLink"]').last().click();
+
+    
     cy.get('.inline > .form-control').type('TC1d');
     cy.get('[data-testid="iconButtonAccept"]').click();
 
