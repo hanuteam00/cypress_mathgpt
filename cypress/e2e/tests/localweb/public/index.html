@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký người dùng</title>
+</head>
+
+<body>
+    <h1>Đăng ký người dùng mới</h1>
+    <form id="registerForm">
+        <label for="firstName">Họ:</label>
+        <input type="text" id="firstName" name="firstName"><br>
+
+        <label for="lastName">Tên:</label>
+        <input type="text" id="lastName" name="lastName"><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email"><br>
+
+        <button type="submit" id="submitButton">Đăng ký</button>
+    </form>
+
+    <div class="row">
+        <a href="https://github.com/tourdedave/the-internet"><img
+                style="position: absolute; top: 0; right: 0; border: 0;" src="/img/forkme_right_green_007200.png"
+                alt="Fork me on GitHub"></a>
+        <div id="content" class="large-12 columns">
+            <div class="example">
+                <h2>Login Page</h2>
+                <h4 class="subheader">This is where you can log into the secure area. Enter <em>tomsmith</em> for the
+                    username and <em>SuperSecretPassword!</em> for the password. If the information is wrong you should
+                    see error messages.</h4>
+                <form name="login" id="login" action="/authenticate" method="post">
+                    <div class="row">
+                        <div class="large-6 small-12 columns">
+                            <label for="username">Username</label>
+                            <input type="text" name="username" id="username" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-6 small-12 columns">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" />
+                        </div>
+                    </div>
+                    <button class="radius" type="submit"><i class="fa fa-2x fa-sign-in"> Login</i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
