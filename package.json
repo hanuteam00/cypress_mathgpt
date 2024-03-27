@@ -14,14 +14,12 @@
     "cypress-xpath": "^2.0.1",
     "esbuild": "^0.20.2",
     "exceljs": "^4.4.0",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.3",
+    "xlsx": "^0.18.5"
   },
   "cypress-cucumber-preprocessor": {
     "stepDefinitions": [
       "cypress/e2e/tests/step_definitions/*.{js,ts}"
     ]
-  },
-  "dependencies": {
-    "xlsx": "^0.18.5"
   }
 }
